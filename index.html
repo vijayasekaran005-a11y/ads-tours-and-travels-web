@@ -1,285 +1,402 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Explore hill station trips, villa stays and holiday packages.">
+  <meta name="theme-color" content="#173b2b">
+  <meta name="description" content="Explore hill station holidays, tour packages and villa stays with ADS Holidays.">
   <title>ADS Holidays | Your Next Escape</title>
   <link rel="stylesheet" href="style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+
   <header class="navbar">
-    <a href="#" class="logo">ADS <span>Holidays.</span></a>
-    <nav>
+    <a class="brand" href="#home">ADS <span>Holidays.</span></a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    <nav id="navMenu">
+      <a href="#home">Home</a>
       <a href="#destinations">Destinations</a>
       <a href="#packages">Packages</a>
-      <a href="#planner">Plan Your Trip</a>
+      <a href="#villas">Villa Stays</a>
+      <a href="#booking" class="nav-cta">Plan Your Trip</a>
     </nav>
-    <a href="#planner" class="nav-btn">Plan a trip ↗</a>
   </header>
 
   <main>
-    <section class="hero">
-      <div class="hero-overlay"></div>
+    <section class="hero" id="home">
       <div class="hero-content">
-        <span class="eyebrow">YOUR NEXT ESCAPE STARTS HERE</span>
-        <h1>Find your peace<br>in the <em>hills.</em></h1>
-        <p>Discover misty mountains, beautiful stays and unforgettable road trips.</p>
-        <a href="#destinations" class="primary-btn">Explore destinations <span>→</span></a>
-        <div class="hero-note">✦ Handpicked hill station experiences</div>
-      </div>
-      <div class="hero-bottom">
-        <span>01 — 04 DESTINATIONS</span>
-        <span>Nature · Comfort · Adventure</span>
+        <span class="eyebrow light">YOUR NEXT ESCAPE STARTS HERE</span>
+        <h1>Find your peace<br>in the <span>hills.</span></h1>
+        <p>Discover beautiful destinations, comfortable stays and memorable journeys with ADS Holidays.</p>
+        <div class="hero-actions">
+          <a href="#destinations" class="btn btn-primary">Explore Destinations</a>
+          <a href="#booking" class="btn btn-outline">Plan Your Trip</a>
+        </div>
+        <div class="hero-note">Kodaikanal · Yercaud · Ooty · Munnar</div>
       </div>
     </section>
 
-    <section class="section intro" id="destinations">
-      <div>
-        <span class="eyebrow dark">ESCAPE THE ORDINARY</span>
-        <h2>Where would you<br>like to <em>go?</em></h2>
-      </div>
-      <p class="section-desc">From peaceful lakes to winding mountain roads, find the perfect destination for your next getaway.</p>
+    <section class="section intro">
+      <span class="eyebrow">TRAVEL YOUR WAY</span>
+      <h2>More than a trip.<br>A memory to keep.</h2>
+      <p>From misty mountains to peaceful villa stays, we help you plan a getaway that suits your group and budget.</p>
     </section>
 
-    <section class="destination-grid">
-      <article class="destination-card">
-        <img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=900&q=85" alt="Mountain landscape in Kodaikanal" loading="lazy">
-        <div class="card-shade"></div>
-        <div class="destination-info">
-          <span>TAMIL NADU</span>
-          <h3>Kodaikanal</h3>
-          <p>Misty mornings & peaceful lakes</p>
-          <button class="text-btn" onclick="chooseDestination('Kodaikanal')">Explore destination ↗</button>
+    <section class="section destinations" id="destinations">
+      <div class="section-title">
+        <div>
+          <span class="eyebrow">EXPLORE THE HILLS</span>
+          <h2>Popular Destinations</h2>
         </div>
-      </article>
+        <p>Four beautiful places. Endless memories.</p>
+      </div>
 
-      <article class="destination-card">
-        <img src="https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=900&q=85" alt="Green forest in Yercaud" loading="lazy">
-        <div class="card-shade"></div>
-        <div class="destination-info">
-          <span>TAMIL NADU</span>
-          <h3>Yercaud</h3>
-          <p>Green valleys & quiet escapes</p>
-          <button class="text-btn" onclick="chooseDestination('Yercaud')">Explore destination ↗</button>
-        </div>
-      </article>
+      <div class="destination-grid">
+        <article class="destination-card">
+          <img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=900&q=85" alt="Misty mountain landscape in Kodaikanal" loading="lazy">
+          <div class="destination-info">
+            <span>TAMIL NADU</span>
+            <h3>Kodaikanal</h3>
+            <p>Misty mountains, lake views and forest trails.</p>
+            <button class="text-btn choose-destination" data-destination="Kodaikanal">Plan Kodaikanal ↗</button>
+          </div>
+        </article>
 
-      <article class="destination-card">
-        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=85" alt="Scenic green hills in Ooty" loading="lazy">
-        <div class="card-shade"></div>
-        <div class="destination-info">
-          <span>TAMIL NADU</span>
-          <h3>Ooty</h3>
-          <p>Cool weather & mountain views</p>
-          <button class="text-btn" onclick="chooseDestination('Ooty')">Explore destination ↗</button>
-        </div>
-      </article>
+        <article class="destination-card">
+          <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=85" alt="Green nature landscape representing Yercaud" loading="lazy">
+          <div class="destination-info">
+            <span>TAMIL NADU</span>
+            <h3>Yercaud</h3>
+            <p>Green hills, peaceful viewpoints and relaxing stays.</p>
+            <button class="text-btn choose-destination" data-destination="Yercaud">Plan Yercaud ↗</button>
+          </div>
+        </article>
 
-      <article class="destination-card">
-        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&q=85" alt="Mountain peaks in Munnar" loading="lazy">
-        <div class="card-shade"></div>
-        <div class="destination-info">
-          <span>KERALA</span>
-          <h3>Munnar</h3>
-          <p>Tea gardens & endless mountains</p>
-          <button class="text-btn" onclick="chooseDestination('Munnar')">Explore destination ↗</button>
-        </div>
-      </article>
+        <article class="destination-card">
+          <img src="https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=900&q=85" alt="Green forest landscape representing Ooty" loading="lazy">
+          <div class="destination-info">
+            <span>TAMIL NADU</span>
+            <h3>Ooty</h3>
+            <p>Cool weather, gardens and scenic mountain roads.</p>
+            <button class="text-btn choose-destination" data-destination="Ooty">Plan Ooty ↗</button>
+          </div>
+        </article>
+
+        <article class="destination-card">
+          <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&q=85" alt="Mountain peaks representing Munnar" loading="lazy">
+          <div class="destination-info">
+            <span>KERALA</span>
+            <h3>Munnar</h3>
+            <p>Mountain views, tea country and fresh hill air.</p>
+            <button class="text-btn choose-destination" data-destination="Munnar">Plan Munnar ↗</button>
+          </div>
+        </article>
+      </div>
     </section>
 
     <section class="section packages" id="packages">
-      <div class="section-heading">
+      <div class="section-title">
         <div>
-          <span class="eyebrow dark">MADE FOR YOUR GETAWAY</span>
-          <h2>Stay a little <em>longer.</em></h2>
+          <span class="eyebrow">MAKE IT YOURS</span>
+          <h2>Choose Your Experience</h2>
         </div>
-        <p>Choose your style of escape. Final prices depend on your dates, destination and availability.</p>
+        <p>Select a package and customise your trip.</p>
       </div>
 
       <div class="package-grid">
         <article class="package-card">
-          <img src="https://images.unsplash.com/photo-1449158743715-0a90ebb6d2d8?auto=format&fit=crop&w=800&q=85" alt="Cosy villa surrounded by nature" loading="lazy">
-          <div class="package-body">
-            <span class="package-tag">COSY ESCAPE</span>
-            <h3>Villa & Homestay</h3>
-            <p>A relaxing stay for couples, friends and families.</p>
-            <div class="price">₹2,500 <small>/ starting price per stay</small></div>
-            <button class="outline-btn" onclick="choosePackage('Villa & Homestay')">Enquire now ↗</button>
-          </div>
+          <div class="package-number">01</div>
+          <h3>Couple Escape</h3>
+          <p>A relaxed getaway with scenic spots and quality time.</p>
+          <ul>
+            <li>Destination sightseeing</li>
+            <li>Stay options on request</li>
+            <li>Pickup and drop optional</li>
+          </ul>
+          <button class="btn btn-dark choose-package" data-package="Couple Escape">Choose Package</button>
+        </article>
+
+        <article class="package-card featured">
+          <span class="package-tag">POPULAR</span>
+          <div class="package-number">02</div>
+          <h3>Family Holiday</h3>
+          <p>Bring everyone together for a comfortable family trip.</p>
+          <ul>
+            <li>Family-friendly itinerary</li>
+            <li>Guest and child details</li>
+            <li>Food and transport options</li>
+          </ul>
+          <button class="btn btn-dark choose-package" data-package="Family Holiday">Choose Package</button>
         </article>
 
         <article class="package-card">
-          <img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=800&q=85" alt="Road trip through scenic mountains" loading="lazy">
-          <div class="package-body">
-            <span class="package-tag">THE EXPLORER</span>
-            <h3>Hill Station Tour</h3>
-            <p>Explore viewpoints, attractions and local highlights.</p>
-            <div class="price">Custom <small>/ based on your itinerary</small></div>
-            <button class="outline-btn" onclick="choosePackage('Hill Station Tour')">Plan your tour ↗</button>
-          </div>
-        </article>
-
-        <article class="package-card">
-          <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=800&q=85" alt="Scenic outdoor camping getaway" loading="lazy">
-          <div class="package-body">
-            <span class="package-tag">THE FULL EXPERIENCE</span>
-            <h3>Complete Getaway</h3>
-            <p>Stay, transport and optional experiences in one plan.</p>
-            <div class="price">Custom <small>/ tailored to your budget</small></div>
-            <button class="outline-btn" onclick="choosePackage('Complete Getaway')">Build my trip ↗</button>
-          </div>
+          <div class="package-number">03</div>
+          <h3>Friends Getaway</h3>
+          <p>Explore viewpoints, enjoy the journey and make memories.</p>
+          <ul>
+            <li>Group trip planning</li>
+            <li>Villa and room options</li>
+            <li>Optional local guide</li>
+          </ul>
+          <button class="btn btn-dark choose-package" data-package="Friends Getaway">Choose Package</button>
         </article>
       </div>
+      <p class="section-footnote">Packages are customisable. Final pricing depends on dates, group size, accommodation and selected services.</p>
     </section>
 
-    <section class="planner-section" id="planner">
-      <div class="planner-intro">
-        <span class="eyebrow">YOUR TRIP, YOUR WAY</span>
-        <h2>Let's plan something <em>beautiful.</em></h2>
-        <p>Tell us what you have in mind. We'll prepare your enquiry for WhatsApp.</p>
-        <div class="planner-benefit">✦ Flexible trip plans</div>
-        <div class="planner-benefit">✦ Optional food and travel add-ons</div>
-        <div class="planner-benefit">✦ Custom budget and group details</div>
+    <section class="rainrock-section" id="villas">
+      <div class="section-title">
+        <div>
+          <span class="eyebrow">STAY IN YERCAUD</span>
+          <h2>Rain Rock Villa</h2>
+        </div>
+        <p>Explore five room and villa options.</p>
       </div>
 
-      <form id="bookingForm" class="booking-form">
-        <h3>Plan your getaway</h3>
-        <p class="form-subtitle">Share your details to start your enquiry.</p>
+      <div class="rainrock-grid">
+        <article class="rainrock-card">
+          <img src="https://gos3.ibcdn.com/016596de-1282-4c4f-9748-16f35f3abea9.jpeg" alt="Rain Rock Villa Dome room" loading="lazy">
+          <div class="rainrock-body">
+            <span class="room-label">DOME STAY</span>
+            <h3>Dome</h3>
+            <p>A unique dome-style stay for a memorable getaway.</p>
+            <div class="rainrock-price">₹7,482 <small>/ night</small></div>
+            <p class="tax-note">Taxes extra · Reference price</p>
+            <a class="room-btn" href="https://www.makemytrip.com/hotels/rainrock_villa_yercaud-details-yercaud.html" target="_blank" rel="noopener noreferrer">View &amp; Book ↗</a>
+          </div>
+        </article>
+
+        <article class="rainrock-card">
+          <img src="https://hillview-luxury-dome-rooms.hotelsintamilnadu.com/data/Pics/OriginalPhoto/17604/1760423/1760423864/rain-rock-villa-yercaud-pic-50.JPEG" alt="Rain Rock Villa property view" loading="lazy">
+          <div class="rainrock-body">
+            <span class="room-label">TWO BEDROOMS</span>
+            <h3>2 BR White Villa</h3>
+            <p>A two-bedroom villa option for a group stay.</p>
+            <div class="rainrock-price">₹9,256 <small>/ night</small></div>
+            <p class="tax-note">Taxes extra · Reference price</p>
+            <a class="room-btn" href="https://www.makemytrip.com/hotels/rainrock_villa_yercaud-details-yercaud.html" target="_blank" rel="noopener noreferrer">View &amp; Book ↗</a>
+          </div>
+        </article>
+
+        <article class="rainrock-card">
+          <img src="https://hillview-luxury-dome-rooms.hotelsintamilnadu.com/data/Pics/OriginalPhoto/17604/1760423/1760423864/rain-rock-villa-yercaud-pic-50.JPEG" alt="Rain Rock Villa property view" loading="lazy">
+          <div class="rainrock-body">
+            <span class="room-label">SUITE</span>
+            <h3>Yellow Suite</h3>
+            <p>A suite option for a relaxing hill-station holiday.</p>
+            <div class="rainrock-price">₹11,570 <small>/ night</small></div>
+            <p class="tax-note">Taxes extra · Reference price</p>
+            <a class="room-btn" href="https://www.makemytrip.com/hotels/rainrock_villa_yercaud-details-yercaud.html" target="_blank" rel="noopener noreferrer">View &amp; Book ↗</a>
+          </div>
+        </article>
+
+        <article class="rainrock-card">
+          <img src="https://hillview-luxury-dome-rooms.hotelsintamilnadu.com/data/Pics/OriginalPhoto/17604/1760423/1760423864/rain-rock-villa-yercaud-pic-50.JPEG" alt="Rain Rock Villa property view" loading="lazy">
+          <div class="rainrock-body">
+            <span class="room-label">PREMIUM STAY</span>
+            <h3>Premium Room</h3>
+            <p>A premium room option for your Yercaud escape.</p>
+            <div class="rainrock-price">₹11,570 <small>/ night</small></div>
+            <p class="tax-note">Taxes extra · Reference price</p>
+            <a class="room-btn" href="https://www.makemytrip.com/hotels/rainrock_villa_yercaud-details-yercaud.html" target="_blank" rel="noopener noreferrer">View &amp; Book ↗</a>
+          </div>
+        </article>
+
+        <article class="rainrock-card">
+          <img src="https://hillview-luxury-dome-rooms.hotelsintamilnadu.com/data/Pics/OriginalPhoto/17604/1760423/1760423864/rain-rock-villa-yercaud-pic-50.JPEG" alt="Rain Rock Villa property view" loading="lazy">
+          <div class="rainrock-body">
+            <span class="room-label">TWO BEDROOMS</span>
+            <h3>2 BR Yellow Villa</h3>
+            <p>A two-bedroom villa option for a comfortable getaway.</p>
+            <div class="rainrock-price">₹12,341 <small>/ night</small></div>
+            <p class="tax-note">Taxes extra · Reference price</p>
+            <a class="room-btn" href="https://www.makemytrip.com/hotels/rainrock_villa_yercaud-details-yercaud.html" target="_blank" rel="noopener noreferrer">View &amp; Book ↗</a>
+          </div>
+        </article>
+      </div>
+
+      <p class="price-disclaimer">Prices are indicative listing snapshots, not live quotes. Taxes are extra. Rates and availability may change by date and guest count. Confirm the final amount before booking.</p>
+      <p class="booking-source">Booking listing: <a href="https://www.goibibo.com/hotels/rainrock-villa-yercaud-hotel-in-yercaud-3707436642013032388/" target="_blank" rel="noopener noreferrer">View Rain Rock Villa on Goibibo ↗</a></p>
+    </section>
+
+    <section class="section booking-section" id="booking">
+      <div class="booking-intro">
+        <span class="eyebrow light">LET'S PLAN SOMETHING SPECIAL</span>
+        <h2>Your next adventure<br>starts here.</h2>
+        <p>Share your travel details. We'll prepare your enquiry so you can send it directly through WhatsApp.</p>
+        <div class="booking-benefit">✓ Flexible trip planning</div>
+        <div class="booking-benefit">✓ Custom stay and transport options</div>
+        <div class="booking-benefit">✓ Group-friendly enquiry</div>
+      </div>
+
+      <form class="booking-form" id="bookingForm">
+        <h3>Plan Your Trip</h3>
+        <p class="form-subtitle">Tell us a little about your holiday.</p>
 
         <div class="form-grid">
           <label>
             Your name *
             <input type="text" id="customerName" placeholder="Enter your name" required>
           </label>
+
           <label>
             Phone number *
-            <input type="tel" id="customerPhone" placeholder="10-digit mobile number" pattern="[0-9+\-\s]{10,15}" required>
+            <input type="tel" id="customerPhone" placeholder="Your contact number" required>
           </label>
+
           <label>
             Destination *
             <select id="destination" required>
-              <option value="">Choose destination</option>
+              <option value="">Select destination</option>
               <option>Kodaikanal</option>
               <option>Yercaud</option>
               <option>Ooty</option>
               <option>Munnar</option>
             </select>
           </label>
+
           <label>
-            Package
-            <select id="packageType">
-              <option>Villa & Homestay</option>
-              <option>Hill Station Tour</option>
-              <option>Complete Getaway</option>
-              <option>Custom Plan</option>
+            Package *
+            <select id="packageType" required>
+              <option value="">Select package</option>
+              <option>Couple Escape</option>
+              <option>Family Holiday</option>
+              <option>Friends Getaway</option>
+              <option>Custom Trip</option>
             </select>
           </label>
+
           <label>
-            Check-in date *
-            <input type="date" id="checkIn" required>
+            Check-in / start date *
+            <input type="date" id="startDate" required>
           </label>
+
           <label>
-            Check-out date *
-            <input type="date" id="checkOut" required>
+            Check-out / end date *
+            <input type="date" id="endDate" required>
           </label>
-        </div>
 
-        <div class="guest-heading">
-          <div>
-            <h4>Who's travelling?</h4>
-            <p>Enter each guest's name and age.</p>
-          </div>
-          <button type="button" class="add-btn" id="addGuest">+ Add guest</button>
-        </div>
-        <div id="guestList"></div>
-        <p class="hint">Age 12 and above counts as an adult. Under 12 counts as a child.</p>
-
-        <div class="divider"></div>
-        <h4>Travel preferences</h4>
-        <div class="option-grid">
-          <label class="check-option"><input type="checkbox" id="pickup"> Pickup</label>
-          <label class="check-option"><input type="checkbox" id="drop"> Drop</label>
-          <label class="check-option"><input type="checkbox" id="guide"> Tour guide</label>
-        </div>
-
-        <div class="divider"></div>
-        <div class="food-heading">
-          <div>
-            <h4>Food preferences</h4>
-            <p>Optional — select what you'd like.</p>
-          </div>
-          <label class="switch-label">
-            <input type="checkbox" id="foodToggle">
-            Include food
-          </label>
-        </div>
-
-        <div id="foodOptions" class="food-options hidden">
           <label>
-            Food preference
-            <select id="foodType">
-              <option>Vegetarian</option>
-              <option>Non-vegetarian</option>
-              <option>Both veg and non-veg</option>
+            Pickup location
+            <input type="text" id="pickupLocation" placeholder="City or pickup point">
+          </label>
+
+          <label>
+            Stay preference
+            <select id="stayType">
+              <option value="No stay selected">Select stay type</option>
+              <option>Hotel</option>
+              <option>Villa</option>
+              <option>Resort</option>
+              <option>Rain Rock Villa - Dome</option>
+              <option>Rain Rock Villa - 2 BR White Villa</option>
+              <option>Rain Rock Villa - Yellow Suite</option>
+              <option>Rain Rock Villa - Premium Room</option>
+              <option>Rain Rock Villa - 2 BR Yellow Villa</option>
             </select>
           </label>
-          <p class="hint">Choose meals and extras if required.</p>
-          <div class="option-grid">
-            <label class="check-option"><input type="checkbox" name="meal" value="Breakfast"> Breakfast</label>
-            <label class="check-option"><input type="checkbox" name="meal" value="Lunch"> Lunch</label>
-            <label class="check-option"><input type="checkbox" name="meal" value="Dinner"> Dinner</label>
-            <label class="check-option"><input type="checkbox" name="meal" value="Snacks"> Snacks</label>
-            <label class="check-option"><input type="checkbox" name="meal" value="Tea/Coffee"> Tea / Coffee</label>
-            <label class="check-option"><input type="checkbox" name="meal" value="BBQ"> BBQ</label>
-            <label class="check-option"><input type="checkbox" name="meal" value="Bonfire"> Bonfire</label>
+        </div>
+
+        <div class="form-divider"></div>
+
+        <div class="subheading-row">
+          <div>
+            <h4>Guests</h4>
+            <p>Add each traveller's name and age.</p>
           </div>
-          <label class="full-label">
-            Special food requests
-            <input type="text" id="foodNotes" placeholder="e.g. Jain food, allergies, less spicy">
+          <button type="button" class="btn btn-small btn-light" id="addGuest">+ Add Guest</button>
+        </div>
+
+        <div id="guestList" class="guest-list"></div>
+        <p class="guest-count" id="guestCount">Adults: 1 · Children: 0</p>
+
+        <div class="form-divider"></div>
+
+        <h4>Optional Services</h4>
+        <div class="service-options">
+          <label class="check-option">
+            <input type="checkbox" id="pickupService">
+            <span>Pickup service</span>
           </label>
-          <label class="full-label">
-            Food budget per person (₹, optional)
-            <input type="number" id="foodPrice" min="0" placeholder="Enter provider's price if known">
+          <label class="check-option">
+            <input type="checkbox" id="dropService">
+            <span>Drop service</span>
+          </label>
+          <label class="check-option">
+            <input type="checkbox" id="guideService">
+            <span>Local guide</span>
           </label>
         </div>
 
-        <div class="divider"></div>
-        <label>
-          Total trip budget (₹)
-          <input type="number" id="budget" min="0" placeholder="e.g. 10000">
-        </label>
-        <div class="budget-summary">
-          <span>Guest count</span><strong id="guestSummary">1 guest</strong>
-          <span>Estimated food budget</span><strong id="foodEstimate">Not selected</strong>
+        <div class="form-divider"></div>
+
+        <h4>Food Preferences</h4>
+        <p class="small-muted">Food is optional. Add your estimated food budget per guest if needed.</p>
+
+        <div class="service-options">
+          <label class="check-option">
+            <input type="checkbox" id="foodVeg">
+            <span>Vegetarian</span>
+          </label>
+          <label class="check-option">
+            <input type="checkbox" id="foodNonVeg">
+            <span>Non-vegetarian</span>
+          </label>
+          <label class="check-option">
+            <input type="checkbox" id="foodBreakfast">
+            <span>Breakfast</span>
+          </label>
+          <label class="check-option">
+            <input type="checkbox" id="foodLunch">
+            <span>Lunch</span>
+          </label>
+          <label class="check-option">
+            <input type="checkbox" id="foodDinner">
+            <span>Dinner</span>
+          </label>
         </div>
-        <p class="hint">Estimates exclude accommodation, transport and activities. Prices must be confirmed by the provider.</p>
 
         <label class="full-label">
-          Anything else? (optional)
-          <textarea id="extraNotes" rows="3" placeholder="Room type, sightseeing, special requests..."></textarea>
+          Food budget per guest (₹)
+          <input type="number" id="foodBudget" min="0" step="50" placeholder="Optional, e.g. 500">
         </label>
 
-        <button type="submit" class="submit-btn">Send enquiry on WhatsApp <span>↗</span></button>
-        <p class="privacy-note">Your enquiry will open in WhatsApp for you to review and send.</p>
-      </form>
-    </section>
+        <label class="full-label">
+          Total estimated trip budget (₹)
+          <input type="number" id="totalBudget" min="0" step="500" placeholder="Your overall budget">
+        </label>
 
-    <section class="closing">
-      <span class="eyebrow">YOUR NEXT CHAPTER IS OUT THERE</span>
-      <h2>Take the scenic <em>route.</em></h2>
-      <a href="#planner" class="primary-btn">Start planning ↗</a>
+        <label class="full-label">
+          Additional requests
+          <textarea id="extraRequests" rows="3" placeholder="Room preferences, sightseeing, special requests..."></textarea>
+        </label>
+
+        <div class="estimate-panel">
+          <span>Estimated food budget</span>
+          <strong id="foodEstimate">₹0</strong>
+          <small>Food budget per guest × number of guests. This is your estimate, not a confirmed quote.</small>
+        </div>
+
+        <button type="submit" class="btn btn-whatsapp">Send Enquiry on WhatsApp ↗</button>
+        <p class="form-disclaimer">Your enquiry opens WhatsApp with the details you entered. No online payment or automatic booking confirmation is made on this website.</p>
+        <p id="formMessage" class="form-message" role="status"></p>
+      </form>
     </section>
   </main>
 
-  <footer>
-    <a href="#" class="logo">Hill<span>Trip.</span></a>
-    <p>Find your escape. Make memories.</p>
-    <span>© <span id="year"></span> HillTrip. All rights reserved.</span>
+  <footer class="footer">
+    <a class="brand footer-brand" href="#home">ADS <span>Holidays.</span></a>
+    <p>Thoughtful trips. Beautiful memories.</p>
+    <div class="footer-links">
+      <a href="#destinations">Destinations</a>
+      <a href="#villas">Villa Stays</a>
+      <a href="#booking">Contact / Enquiry</a>
+    </div>
+    <small>© <span id="currentYear"></span> ADS Holidays. All rights reserved.</small>
   </footer>
+
+  <a class="floating-whatsapp" id="floatingWhatsapp" href="#booking" aria-label="Plan your trip">Plan a Trip ↗</a>
 
   <script src="script.js"></script>
 </body>
