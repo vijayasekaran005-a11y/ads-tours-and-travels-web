@@ -1,60 +1,95 @@
-// HillTrip website settings
-// Replace this with your business WhatsApp number.
-// Example: 919876543210 (country code + phone number, no + sign)
+
+/*
+  ADS HOLIDAYS WEBSITE
+  IMPORTANT:
+  Replace the WhatsApp number below with your real number.
+  Format: country code + phone number, without + or spaces.
+  Example format for India: 919876543210
+*/
+
 const WHATSAPP_NUMBER = "919345587325";
 
-const guestList = document.getElementById("guestList");
-const addGuestButton = document.getElementById("addGuest");
-const foodToggle = document.getElementById("foodToggle");
-const foodOptions = document.getElementById("foodOptions");
+const menuToggle = document.getElementById("menuToggle");
+const navMenu = document.getElementById("navMenu");
 const bookingForm = document.getElementById("bookingForm");
+const guestList = document.getElementById("guestList");
+const guestCount = document.getElementById("guestCount");
+const foodBudgetInput = document.getElementById("foodBudget");
+const foodEstimate = document.getElementById("foodEstimate");
+const formMessage = document.getElementById("formMessage");
 
-let guestCounter = 0;
+let nextGuestId = 1;
 
-// Set today's date as the earliest selectable date.
-const today = new Date();
-const localToday = [
-  today.getFullYear(),
-  String(today.getMonth() + 1).padStart(2, "0"),
-  String(today.getDate()).padStart(2, "0")
-].join("-");
+// Mobile navigation
+menuToggle.addEventListener("click", () => {
+  const isOpen = navMenu.classList.toggle("open");
+  menuToggle.setAttribute("aria-expanded", String(isOpen));
+  menuToggle.textContent = isOpen ? "✕" : "☰";
+});
 
-const checkIn = document.getElementById("checkIn");
-const checkOut = document.getElementById("checkOut");
+navMenu.querySelectorAll("a").forEach((link) => {
+  link.addEventListener("click", () => {
+    navMenu.classList.remove("open");
+    menuToggle.setAttribute("aria-expanded", "false");
+    menuToggle.textContent = "☰";
+  });
+});
 
-checkIn.min = localToday;
-checkOut.min = localToday;
+// Set the footer year
+document.getElementById("currentYear").textContent =
+  new Date().getFullYear();
 
-checkIn.addEventListener("change", () => {
-  checkOut.min = checkIn.value || localToday;
+// Prevent selecting past travel dates
+const startDateInput = document.getElementById("startDate");
+const endDateInput = document.getElementById("endDate");
 
-  if (checkOut.value && checkOut.value <= checkIn.value) {
-    checkOut.value = "";
+function localDateString(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function setDateLimits() {
+  const today = localDateString(new Date());
+  startDateInput.min = today;
+  endDateInput.min = startDateInput.value || today;
+
+  if (startDateInput.value && endDateInput.value &&
+      endDateInput.value < startDateInput.value) {
+    endDateInput.value = "";
+  }
+}
+
+startDateInput.addEventListener("change", () => {
+  endDateInput.min = startDateInput.value || localDateString(new Date());
+
+  if (endDateInput.value && endDateInput.value < startDateInput.value) {
+    endDateInput.value = "";
   }
 });
 
-// Create a guest entry.
-function addGuest(name = "", age = "") {
-  if (guestList.children.length >= 30) {
-    alert("Maximum 30 guests can be added.");
-    return;
-  }
+setDateLimits();
 
-  guestCounter++;
+// Guest management
+function addGuest(name = "", age = "") {
+  const guestId = nextGuestId++;
 
   const row = document.createElement("div");
   row.className = "guest-row";
+  row.dataset.guestId = String(guestId);
 
   const nameLabel = document.createElement("label");
-  nameLabel.textContent = `Guest ${guestCounter} name`;
+  nameLabel.textContent = `Guest ${guestId} name`;
 
   const nameInput = document.createElement("input");
   nameInput.type = "text";
-  nameInput.placeholder = "Full name";
-  nameInput.required = true;
-  nameInput.maxLength = 80;
-  nameInput.value = name;
   nameInput.className = "guest-name";
+  nameInput.placeholder = "Guest name";
+  nameInput.value = name;
+  nameInput.required = true;
+  nameInput.autocomplete = "off";
+
   nameLabel.appendChild(nameInput);
 
   const ageLabel = document.createElement("label");
@@ -62,237 +97,273 @@ function addGuest(name = "", age = "") {
 
   const ageInput = document.createElement("input");
   ageInput.type = "number";
+  ageInput.className = "guest-age";
   ageInput.placeholder = "Age";
   ageInput.min = "0";
   ageInput.max = "120";
-  ageInput.required = true;
+  ageInput.step = "1";
   ageInput.value = age;
-  ageInput.className = "guest-age";
+  ageInput.required = true;
+
   ageLabel.appendChild(ageInput);
 
   const removeButton = document.createElement("button");
   removeButton.type = "button";
   removeButton.className = "remove-guest";
   removeButton.textContent = "×";
-  removeButton.setAttribute("aria-label", "Remove guest");
+  removeButton.setAttribute("aria-label", `Remove guest ${guestId}`);
 
   removeButton.addEventListener("click", () => {
     if (guestList.children.length <= 1) {
-      alert("At least one guest is required.");
+      formMessage.textContent = "At least one guest is required.";
       return;
     }
 
     row.remove();
-    refreshGuests();
+    renumberGuests();
+    updateGuestSummary();
   });
+
+  nameInput.addEventListener("input", updateGuestSummary);
+  ageInput.addEventListener("input", updateGuestSummary);
 
   row.append(nameLabel, ageLabel, removeButton);
   guestList.appendChild(row);
 
-  refreshGuests();
+  updateGuestSummary();
 }
 
-function refreshGuests() {
-  const rows = [...guestList.querySelectorAll(".guest-row")];
+function renumberGuests() {
+  Array.from(guestList.children).forEach((row, index) => {
+    const number = index + 1;
+    const labels = row.querySelectorAll("label");
+    const nameInput = row.querySelector(".guest-name");
+    const ageInput = row.querySelector(".guest-age");
+    const removeButton = row.querySelector(".remove-guest");
 
-  rows.forEach((row, index) => {
-    row.querySelector("label").firstChild.textContent =
-      `Guest ${index + 1} name`;
+    labels[0].firstChild.textContent = `Guest ${number} name`;
+    labels[1].firstChild.textContent = "Age";
+    nameInput.id = `guestName${number}`;
+    ageInput.id = `guestAge${number}`;
+    removeButton.setAttribute("aria-label", `Remove guest ${number}`);
+  });
+}
+
+function getGuests() {
+  return Array.from(guestList.querySelectorAll(".guest-row")).map((row) => ({
+    name: row.querySelector(".guest-name").value.trim(),
+    age: row.querySelector(".guest-age").value
+  }));
+}
+
+function updateGuestSummary() {
+  const guests = getGuests();
+  let adults = 0;
+  let children = 0;
+
+  guests.forEach((guest) => {
+    if (guest.age !== "" && Number(guest.age) < 12) {
+      children++;
+    } else if (guest.age !== "") {
+      adults++;
+    }
   });
 
-  const adultCount = rows.filter(row => {
-    const age = Number(row.querySelector(".guest-age").value);
-    return row.querySelector(".guest-age").value !== "" && age >= 12;
-  }).length;
-
-  const childCount = rows.filter(row => {
-    const input = row.querySelector(".guest-age");
-    return input.value !== "" && Number(input.value) < 12;
-  }).length;
-
-  const unknownCount = rows.length - adultCount - childCount;
-
-  document.getElementById("guestSummary").textContent =
-    `${rows.length} guest${rows.length === 1 ? "" : "s"} ` +
-    `(${adultCount} adult${adultCount === 1 ? "" : "s"}, ` +
-    `${childCount} child${childCount === 1 ? "" : "ren"}` +
-    (unknownCount ? `, ${unknownCount} age pending` : "") + ")";
+  guestCount.textContent =
+    `Adults: ${adults} · Children: ${children} · Total guests: ${guests.length}`;
 
   updateFoodEstimate();
 }
 
-addGuestButton.addEventListener("click", () => addGuest());
+document.getElementById("addGuest").addEventListener("click", () => {
+  if (guestList.children.length >= 30) {
+    formMessage.textContent = "For groups above 30, please contact us directly.";
+    return;
+  }
 
-guestList.addEventListener("input", refreshGuests);
-
-// Food selection
-foodToggle.addEventListener("change", () => {
-  foodOptions.classList.toggle("hidden", !foodToggle.checked);
-  updateFoodEstimate();
+  formMessage.textContent = "";
+  addGuest();
 });
 
-document.getElementById("foodPrice").addEventListener("input", updateFoodEstimate);
+addGuest();
 
+// Food estimate
 function updateFoodEstimate() {
-  const result = document.getElementById("foodEstimate");
-  const priceInput = document.getElementById("foodPrice");
+  const budgetPerGuest = Math.max(0, Number(foodBudgetInput.value) || 0);
+  const total = budgetPerGuest * guestList.children.length;
 
-  if (!foodToggle.checked) {
-    result.textContent = "Not selected";
-    return;
-  }
-
-  if (priceInput.value === "" || Number(priceInput.value) < 0) {
-    result.textContent = "Price not entered";
-    return;
-  }
-
-  const price = Number(priceInput.value);
-  const guests = guestList.querySelectorAll(".guest-row").length;
-  const total = price * guests;
-
-  result.textContent = `₹${total.toLocaleString("en-IN")}`;
+  foodEstimate.textContent = `₹${total.toLocaleString("en-IN")}`;
 }
 
-// Select a destination from its card.
-function chooseDestination(destinationName) {
-  document.getElementById("destination").value = destinationName;
-  document.getElementById("planner").scrollIntoView({
-    behavior: "smooth"
+foodBudgetInput.addEventListener("input", updateFoodEstimate);
+
+// Destination and package quick selection
+function scrollToBooking() {
+  document.getElementById("booking").scrollIntoView({
+    behavior: "smooth",
+    block: "start"
   });
 }
 
-// Select a package from its card.
-function choosePackage(packageName) {
-  document.getElementById("packageType").value = packageName;
-  document.getElementById("planner").scrollIntoView({
-    behavior: "smooth"
+document.querySelectorAll(".choose-destination").forEach((button) => {
+  button.addEventListener("click", () => {
+    document.getElementById("destination").value =
+      button.dataset.destination;
+
+    scrollToBooking();
   });
-}
+});
 
-// Form submission: build an enquiry and open WhatsApp.
-bookingForm.addEventListener("submit", event => {
-  event.preventDefault();
+document.querySelectorAll(".choose-package").forEach((button) => {
+  button.addEventListener("click", () => {
+    document.getElementById("packageType").value =
+      button.dataset.package;
 
-  if (!bookingForm.reportValidity()) return;
+    scrollToBooking();
+  });
+});
 
-  const customerName = document.getElementById("customerName").value.trim();
-  const customerPhone = document.getElementById("customerPhone").value.trim();
-  const destination = document.getElementById("destination").value;
-  const packageType = document.getElementById("packageType").value;
-  const startDate = checkIn.value;
-  const endDate = checkOut.value;
+// Select the matching Rain Rock Villa stay and destination
+document.querySelectorAll(".room-btn").forEach((link) => {
+  link.addEventListener("click", () => {
+    const roomName = link.closest(".rainrock-card")
+      .querySelector("h3").textContent.trim();
 
-  if (endDate <= startDate) {
-    alert("Check-out date must be after check-in date.");
-    checkOut.focus();
-    return;
-  }
+    const staySelect = document.getElementById("stayType");
+    const stayOption = Array.from(staySelect.options).find((option) =>
+      option.textContent.endsWith(roomName)
+    );
 
-  const rows = [...guestList.querySelectorAll(".guest-row")];
-  const guests = [];
-
-  for (const row of rows) {
-    const name = row.querySelector(".guest-name").value.trim();
-    const ageValue = row.querySelector(".guest-age").value;
-    const age = Number(ageValue);
-
-    if (!name || ageValue === "" || age < 0 || age > 120) {
-      alert("Please enter a valid name and age for every guest.");
-      row.querySelector(".guest-name").focus();
-      return;
+    if (stayOption) {
+      staySelect.value = stayOption.value;
     }
 
-    guests.push({
-      name,
-      age,
-      type: age >= 12 ? "Adult" : "Child"
-    });
-  }
+    document.getElementById("destination").value = "Yercaud";
+  });
+});
 
-  const pickup = document.getElementById("pickup").checked;
-  const drop = document.getElementById("drop").checked;
-  const guide = document.getElementById("guide").checked;
+// Build WhatsApp enquiry
+bookingForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  formMessage.textContent = "";
 
-  const includeFood = foodToggle.checked;
-  const foodType = document.getElementById("foodType").value;
-  const selectedMeals = [
-    ...document.querySelectorAll('input[name="meal"]:checked')
-  ].map(item => item.value);
-
-  const foodPrice = document.getElementById("foodPrice").value;
-  const foodNotes = document.getElementById("foodNotes").value.trim();
-  const budget = document.getElementById("budget").value;
-  const extraNotes = document.getElementById("extraNotes").value.trim();
-
-  const formatDate = value => {
-    const [year, month, day] = value.split("-");
-    return `${day}/${month}/${year}`;
-  };
-
-  const lines = [
-    "🌿 *NEW HILLTRIP BOOKING ENQUIRY*",
-    "",
-    "*Customer Details*",
-    `Name: ${customerName}`,
-    `Phone: ${customerPhone}`,
-    "",
-    "*Trip Details*",
-    `Destination: ${destination}`,
-    `Package: ${packageType}`,
-    `Check-in: ${formatDate(startDate)}`,
-    `Check-out: ${formatDate(endDate)}`,
-    "",
-    `*Guests (${guests.length})*`,
-    ...guests.map((guest, index) =>
-      `${index + 1}. ${guest.name} — Age ${guest.age} (${guest.type})`
-    ),
-    "",
-    "*Travel Options*",
-    `Pickup: ${pickup ? "Yes" : "No"}`,
-    `Drop: ${drop ? "Yes" : "No"}`,
-    `Guide: ${guide ? "Yes" : "No"}`,
-    "",
-    "*Food Preferences*",
-    `Food required: ${includeFood ? "Yes" : "No"}`
-  ];
-
-  if (includeFood) {
-    lines.push(
-      `Food type: ${foodType}`,
-      `Meals/extras: ${selectedMeals.length ? selectedMeals.join(", ") : "Not selected"}`,
-      `Food price per guest: ${foodPrice ? "₹" + Number(foodPrice).toLocaleString("en-IN") : "Not specified"}`,
-      `Estimated food total: ${
-        foodPrice
-          ? "₹" + (Number(foodPrice) * guests.length).toLocaleString("en-IN")
-          : "Not calculated"
-      }`,
-      `Special food requests: ${foodNotes || "None"}`
-    );
-  }
-
-  lines.push(
-    "",
-    `Total trip budget: ${budget ? "₹" + Number(budget).toLocaleString("en-IN") : "Not specified"}`,
-    `Additional requests: ${extraNotes || "None"}`,
-    "",
-    "Please share availability and the final quotation. Thank you!"
-  );
-
-  if (!/^91\d{10}$/.test(WHATSAPP_NUMBER)) {
-    alert(
-      "Dude, first replace the WhatsApp number in script.js with your real business number. Use country code + number, without the + sign."
-    );
+  if (WHATSAPP_NUMBER.includes("X")) {
+    formMessage.textContent =
+      "Dude, first replace the WhatsApp placeholder number in script.js with your real number.";
     return;
   }
 
+  const customerName =
+    document.getElementById("customerName").value.trim();
+
+  const customerPhone =
+    document.getElementById("customerPhone").value.trim();
+
+  const destination =
+    document.getElementById("destination").value;
+
+  const packageType =
+    document.getElementById("packageType").value;
+
+  const startDate = startDateInput.value;
+  const endDate = endDateInput.value;
+
+  if (new Date(`${endDate}T00:00:00`) <=
+      new Date(`${startDate}T00:00:00`)) {
+    formMessage.textContent =
+      "End date must be after the start date.";
+    endDateInput.focus();
+    return;
+  }
+
+  const guests = getGuests();
+
+  if (guests.length === 0 ||
+      guests.some((guest) => !guest.name || guest.age === "" ||
+        !Number.isInteger(Number(guest.age)) ||
+        Number(guest.age) < 0 || Number(guest.age) > 120)) {
+    formMessage.textContent =
+      "Please enter every guest's name and a valid age.";
+    return;
+  }
+
+  const adults = guests.filter((guest) => Number(guest.age) >= 12).length;
+  const children = guests.filter((guest) => Number(guest.age) < 12).length;
+
+  const selectedFoods = [
+    ["foodVeg", "Vegetarian"],
+    ["foodNonVeg", "Non-vegetarian"],
+    ["foodBreakfast", "Breakfast"],
+    ["foodLunch", "Lunch"],
+    ["foodDinner", "Dinner"]
+  ]
+    .filter(([id]) => document.getElementById(id).checked)
+    .map(([, label]) => label);
+
+  const services = [
+    ["pickupService", "Pickup"],
+    ["dropService", "Drop"],
+    ["guideService", "Local guide"]
+  ]
+    .filter(([id]) => document.getElementById(id).checked)
+    .map(([, label]) => label);
+
+  const stayType = document.getElementById("stayType").value;
+  const pickupLocation =
+    document.getElementById("pickupLocation").value.trim();
+
+  const foodBudget = Math.max(
+    0, Number(foodBudgetInput.value) || 0
+  );
+
+  const totalFoodBudget = foodBudget * guests.length;
+
+  const totalBudgetInput =
+    document.getElementById("totalBudget").value;
+
+  const totalBudget = totalBudgetInput === ""
+    ? "Not specified"
+    : `₹${Number(totalBudgetInput).toLocaleString("en-IN")}`;
+
+  const extraRequests =
+    document.getElementById("extraRequests").value.trim();
+
+  const guestLines = guests.map((guest, index) =>
+    `${index + 1}. ${guest.name} — ${guest.age} years old (${Number(guest.age) < 12 ? "Child" : "Adult"})`
+  );
+
+  const message = [
+    "🌿 *NEW ADS HOLIDAYS BOOKING ENQUIRY*",
+    "",
+    `👤 Name: ${customerName}`,
+    `📞 Contact: ${customerPhone}`,
+    `🏞️ Destination: ${destination}`,
+    `🎒 Package: ${packageType}`,
+    `📅 Start date: ${startDate}`,
+    `📅 End date: ${endDate}`,
+    `👥 Guests: ${guests.length} (Adults: ${adults}, Children: ${children})`,
+    "",
+    "*Guest Details:*",
+    ...guestLines,
+    "",
+    `🏡 Stay preference: ${stayType}`,
+    `📍 Pickup location: ${pickupLocation || "Not specified"}`,
+    `🚗 Services: ${services.length ? services.join(", ") : "None selected"}`,
+    `🍽️ Food preferences: ${selectedFoods.length ? selectedFoods.join(", ") : "Not selected"}`,
+    `💵 Food budget per guest: ${foodBudget ? `₹${foodBudget.toLocaleString("en-IN")}` : "Not specified"}`,
+    `🍴 Estimated total food budget: ₹${totalFoodBudget.toLocaleString("en-IN")}`,
+    `💰 Overall trip budget: ${totalBudget}`,
+    "",
+    `📝 Additional requests: ${extraRequests || "None"}`,
+    "",
+    "Please share availability and the final quotation. Thank you!"
+  ].join("\n");
+
   const whatsappURL =
-    "https://wa.me/" + WHATSAPP_NUMBER +
-    "?text=" + encodeURIComponent(lines.join("\n"));
+    `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
   window.open(whatsappURL, "_blank", "noopener,noreferrer");
 });
 
-// Initialise the page.
-addGuest();
-document.getElementById("year").textContent = new Date().getFullYear();
+// Initial calculations
+updateGuestSummary();
