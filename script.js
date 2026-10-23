@@ -1,7 +1,7 @@
 // HillTrip website settings
 // Replace this with your business WhatsApp number.
 // Example: 919876543210 (country code + phone number, no + sign)
-const WHATSAPP_NUMBER = "919XXXXXXXXX";
+const WHATSAPP_NUMBER = "919345587325";
 
 const guestList = document.getElementById("guestList");
 const addGuestButton = document.getElementById("addGuest");
