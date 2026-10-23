@@ -405,3 +405,148 @@
     init();
   }
 })();
+
+/* ==========================================
+   ADS HOLIDAYS — DYNAMIC SCROLL ENGINE
+========================================== */
+
+(() => {
+  "use strict";
+
+  function initScrollEffects() {
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    // 1. Scroll reveal targets
+    const selectors = [
+      "main section h1",
+      "main section h2",
+      "main section h3",
+      "main section p",
+      "main section .btn",
+      "main section .button",
+      ".destination-card",
+      ".package-card",
+      ".villa-card",
+      ".tour-card",
+      ".feature-card",
+      ".destination",
+      ".package",
+      ".villa",
+      ".section-heading",
+      ".section-title"
+    ];
+
+    const elements = document.querySelectorAll(
+      selectors.join(", ")
+    );
+
+    if (reduceMotion || !("IntersectionObserver" in window)) {
+      elements.forEach(element => {
+        element.classList.add("visible");
+      });
+    } else {
+      const revealObserver = new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+            } else {
+              // Reveal again when scrolling back up
+              entry.target.classList.remove("visible");
+            }
+          });
+        },
+        {
+          threshold: 0.12,
+          rootMargin: "0px 0px -35px 0px"
+        }
+      );
+
+      elements.forEach((element, index) => {
+        if (element.dataset.revealReady) return;
+
+        // Skip elements already animated by the hero
+        if (element.closest(".hero")) return;
+
+        element.dataset.revealReady = "true";
+
+        // Avoid animating form controls and navigation
+        if (
+          element.closest("nav, header, footer, form")
+        ) {
+          return;
+        }
+
+        // Alternate directions for visual variety
+        if (element.matches("h1, h2, h3, p")) {
+          element.classList.add("reveal");
+        } else if (element.matches("img")) {
+          element.classList.add("reveal-scale");
+        } else {
+          element.classList.add("reveal");
+        }
+
+        element.style.transitionDelay =
+          `${(index % 4) * 80}ms`;
+
+        revealObserver.observe(element);
+      });
+    }
+
+    // 2. Navbar shadow after scrolling
+    const navElements = document.querySelectorAll(
+      "nav, .navbar"
+    );
+
+    function updateNavbar() {
+      const scrolled = window.scrollY > 25;
+
+      navElements.forEach(nav => {
+        nav.classList.toggle("nav-scrolled", scrolled);
+      });
+    }
+
+    window.addEventListener("scroll", updateNavbar, {
+      passive: true
+    });
+
+    updateNavbar();
+
+    // 3. Smooth anchor navigation
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener("click", event => {
+        const targetId = link.getAttribute("href");
+
+        if (!targetId || targetId === "#") return;
+
+        const target = document.querySelector(targetId);
+
+        if (!target) return;
+
+        event.preventDefault();
+
+        target.scrollIntoView({
+          behavior: reduceMotion ? "auto" : "smooth",
+          block: "start"
+        });
+      });
+    });
+
+    console.info(
+      "ADS Holidays: scroll animations initialized."
+    );
+  }
+
+  // Start after the HTML is ready
+  if (document.readyState === "loading") {
+    document.addEventListener(
+      "DOMContentLoaded",
+      initScrollEffects,
+      { once: true }
+    );
+  } else {
+    initScrollEffects();
+  }
+})();
