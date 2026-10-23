@@ -244,3 +244,217 @@ h2 em, h1 em, .villa-feature-copy h3 em { color: #b99b64; font-weight: 500; }
   .form-grid { grid-template-columns: 1fr; }
   .guest-row { grid-template-columns: minmax(0,1fr) 76px 30px; }
 }
+
+/* ==========================================
+   ADS HOLIDAYS — PREMIUM SCROLL ANIMATIONS
+========================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  --reveal-distance: 42px;
+  --reveal-duration: 750ms;
+  --animation-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Main scroll reveal */
+.reveal,
+.reveal-left,
+.reveal-right,
+.reveal-scale {
+  opacity: 0;
+  transition:
+    opacity var(--reveal-duration) ease,
+    transform var(--reveal-duration) var(--animation-ease);
+  will-change: opacity, transform;
+}
+
+.reveal {
+  transform: translateY(var(--reveal-distance));
+}
+
+.reveal-left {
+  transform: translateX(-var(--reveal-distance));
+}
+
+.reveal-right {
+  transform: translateX(var(--reveal-distance));
+}
+
+.reveal-scale {
+  transform: scale(0.94);
+}
+
+.reveal.visible,
+.reveal-left.visible,
+.reveal-right.visible,
+.reveal-scale.visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+/* Hero entrance animation */
+.hero-content,
+.hero h1,
+.hero h2,
+.hero p,
+.hero .btn,
+.hero .button {
+  animation: heroEntrance 900ms var(--animation-ease) both;
+}
+
+.hero h1 {
+  animation-delay: 100ms;
+}
+
+.hero p {
+  animation-delay: 220ms;
+}
+
+.hero .btn,
+.hero .button {
+  animation-delay: 340ms;
+}
+
+@keyframes heroEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Premium image movement */
+img {
+  max-width: 100%;
+}
+
+.destination-card img,
+.package-card img,
+.villa-card img,
+.tour-card img,
+.destination img,
+.package img,
+.villa img {
+  transition: transform 650ms var(--animation-ease);
+}
+
+.destination-card:hover img,
+.package-card:hover img,
+.villa-card:hover img,
+.tour-card:hover img,
+.destination:hover img,
+.package:hover img,
+.villa:hover img {
+  transform: scale(1.055);
+}
+
+/* Card elevation */
+.destination-card,
+.package-card,
+.villa-card,
+.tour-card,
+.feature-card {
+  transition:
+    transform 350ms var(--animation-ease),
+    box-shadow 350ms ease;
+}
+
+.destination-card:hover,
+.package-card:hover,
+.villa-card:hover,
+.tour-card:hover,
+.feature-card:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.13);
+}
+
+/* Buttons */
+button,
+.btn,
+.button,
+a.btn,
+a.button {
+  transition:
+    transform 250ms ease,
+    box-shadow 250ms ease,
+    background-color 250ms ease;
+}
+
+button:hover,
+.btn:hover,
+.button:hover,
+a.btn:hover,
+a.button:hover {
+  transform: translateY(-2px);
+}
+
+/* Navbar scroll effect — enabled by JS */
+nav,
+.navbar,
+header {
+  transition:
+    background-color 300ms ease,
+    box-shadow 300ms ease,
+    backdrop-filter 300ms ease;
+}
+
+.nav-scrolled {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(14px);
+}
+
+/* Form controls */
+input,
+select,
+textarea {
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.13);
+}
+
+/* Optional image parallax container */
+.parallax-container {
+  overflow: hidden;
+}
+
+.parallax-image {
+  transition: transform 200ms linear;
+  will-change: transform;
+}
+
+/* Accessibility: reduce animations when requested */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal,
+  .reveal-left,
+  .reveal-right,
+  .reveal-scale {
+    opacity: 1;
+    transform: none;
+  }
+}
